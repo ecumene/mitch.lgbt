@@ -1,4 +1,4 @@
-![yass](./yass.png)
+![yass](./yass.png | width=200)
 
 # mitch.lgbt
 
