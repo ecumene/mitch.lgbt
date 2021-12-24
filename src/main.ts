@@ -11,32 +11,42 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 
 let sound = false;
 
-const yassification = document.createElement("button");
-yassification.innerText = noSound;
+const soundButton = document.createElement("button");
+soundButton.innerText = noSound;
 
-const yassify = () => {
+const yassify = async (sound: boolean) => {
   mitch.src = yasssURL;
   mitch.alt = "Man with yellow hair, yassified";
+  if (sound){
+    document.body.className = "animated";
+    await sophie.play();
+    setTimeout(() => {
+      unyassify();
+    }, sophie.duration * 1000);
+  }
 }
 
 const unyassify = () => {
   mitch.src = mitchURL;
   mitch.alt = "Man with yellow hair";
+  document.body.className = "";
+  sophie.pause();
+  sophie.currentTime = 0;
 }
 
-yassification.onclick = () => {
+soundButton.onclick = () => {
   sound = !sound;
 
   if(!sound) {
-    yassification.innerText = noSound;
+    soundButton.innerText = noSound;
     sophie.pause();
     sophie.currentTime = 0;
   } else {
-    yassification.innerText = yasSound;
+    soundButton.innerText = yasSound;
   }
 }
 
-app.appendChild(yassification);
+app.appendChild(soundButton);
 
 const mitch = document.createElement("img");
 mitch.src = mitchURL;
@@ -45,22 +55,11 @@ mitch.alt = "Man with yellow hair";
 const sophie = new Audio(sophieURL);
 
 mitch.onmouseenter = async () => {
-  yassify();
-  if(sound) {
-    document.body.classList = ["animated"];
-    await sophie.play();
-    setTimeout(() => {
-      unyassify();
-      document.body.classList = [];
-    }, sophie.duration * 1000);
-  }
+  yassify(sound);
 };
 
 mitch.onmouseleave = () => {
   unyassify();
-  document.body.classList = [];
-  sophie.pause();
-  sophie.currentTime = 0;
 };
 
 app.appendChild(mitch);
